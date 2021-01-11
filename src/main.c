@@ -12,8 +12,15 @@ int main(int argc, char* argv[]) {
     }
 
     struct image temp_img;
-    from_bmp(open_file_toREAD(argv[1]), &temp_img);
+    enum read_status temp_read_status = from_bmp(open_file_toREAD(argv[1]), &temp_img);
+    if (temp_read_status){
+        printf("reading ERROR\n");
+    }
+
     struct image rotate_img = rotate(temp_img);
-    to_bmp(open_file_toWRITE(argv[2]), &rotate_img);
+    enum read_status temp_write_status = to_bmp(open_file_toWRITE(argv[2]), &rotate_img);
+    if (temp_write_status){
+        printf("writing ERROR\n");
+    }
     return 0;
 }
