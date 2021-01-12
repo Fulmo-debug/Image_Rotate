@@ -1,0 +1,9 @@
+message ("Start")
+cmake_minimum_required(VERSION 3.17)
+
+project(untitled2 C)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c18")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall")
+add_executable(untitled2 main.c READER_WRITER.c OPEN_CLOSE_FILE.c ImageDescription.h Enum.h rotate.c OPEN_CLOSE_FILE.h READER_WRITER.h rotate.h)
