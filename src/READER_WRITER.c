@@ -3,7 +3,8 @@
 #include "ImageDescription.h"
 #include "OPEN_CLOSE_FILE.h"
 #include <stdlib.h>
-//очистку написать 
+
+/* читает header bmp файла и проверяет его  */
 enum read_status check_header(FILE* in, struct bmp_header* header) {
     fread(header, sizeof(struct bmp_header), 1, in);
     if ((*header).bfType != 0x4d42) {
@@ -24,7 +25,7 @@ enum read_status check_header(FILE* in, struct bmp_header* header) {
     return READ_OK;
 }
 
-
+/* Считывает пиксели bmp файла  */
 enum read_status read_rgb(FILE* const in, struct bmp_header const header, struct pixel* const data_rgb){
     uint64_t x = header.biWidth;
     uint64_t y = header.biHeight;
@@ -41,6 +42,7 @@ enum read_status read_rgb(FILE* const in, struct bmp_header const header, struct
     return READ_OK;
 }
 
+/*  Функция, которая полностью читает bmp файл и проверяет его  */
 enum read_status from_bmp(FILE* const in, struct image* img){
     struct bmp_header HEADER;
     enum read_status status_header = check_header(in, &HEADER);
@@ -57,6 +59,7 @@ enum read_status from_bmp(FILE* const in, struct image* img){
     return status_rgb;
 }
 
+/* Функция, которая создает header для новой картинки   */
 void create_bmp_header(struct bmp_header* header, struct image const* img){
     uint64_t temp_x = img->width;
     uint64_t temp_y = img->height;
@@ -80,6 +83,7 @@ void create_bmp_header(struct bmp_header* header, struct image const* img){
 
 }
 
+/* Функция, которая записывает новый файл */
 enum write_status to_bmp( FILE* const out, struct image const* img ){
     struct pixel* temp_data = img->data;
     uint64_t temp_x = img->width;
@@ -87,8 +91,8 @@ enum write_status to_bmp( FILE* const out, struct image const* img ){
     int64_t padding = (4 - (temp_x * sizeof(struct pixel) % 4)) % 4;
     struct bmp_header temp_header;
     create_bmp_header(&temp_header,img);
-    size_t temp_value = fwrite(&temp_header, sizeof(struct bmp_header), 1, out);
-    if(temp_value != sizeof(temp_header) && temp_value == NULL) {
+    size_t temp_value = fwrite(&temp_header, 1, sizeof(struct bmp_header), out);
+    if(temp_value != sizeof(temp_header)) {
         return WRITE_ERROR;
     }
 
