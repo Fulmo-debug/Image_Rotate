@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "ImageDescription.h"
 
-
-    struct image rotate( struct image const source ){
+/* Функция поворащивает картинку   */
+struct image rotate( struct image const source ){
     size_t x = source.width;
     size_t y = source.height;
     struct pixel* temp_pixel = malloc(x*y*sizeof(struct pixel));
